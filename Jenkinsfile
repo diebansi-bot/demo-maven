@@ -1,5 +1,19 @@
 pipeline {
-  agent any
+  agent {
+    kubernetes {
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: maven
+    image: maven:3.9.9-eclipse-temurin-17
+    command:
+    - cat
+    tty: true
+"""
+    }
+  }
 
   triggers {
     githubPush()
@@ -12,10 +26,12 @@ pipeline {
       }
     }
 
-    stage('Hello') {
+    stage('Build with Maven') {
       steps {
-        sh 'echo "Hello from Jenkins running on Kubernetes!"'
-        sh 'uname -a'
+        container('maven') {
+          sh 'mvn -v'
+          sh 'mvn package -DskipTests'
+        }
       }
     }
   }
