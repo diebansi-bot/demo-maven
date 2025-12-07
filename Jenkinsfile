@@ -57,13 +57,13 @@ spec:
                 container('kaniko') {
                     // 使用 Kaniko 构建镜像
                     sh """
+                    cp /kaniko/.docker/.dockerconfigjson /kaniko/.docker/config.json
                     /kaniko/executor \
                         --context=\$WORKSPACE \
                         --dockerfile=Dockerfile \
                         --destination=\$IMAGE_NAME \
                         --docker-config=/kaniko/.docker/.dockerconfigjson \
                         --insecure
-                    sleep 300
                     """
                 }
             }
