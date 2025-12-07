@@ -62,7 +62,6 @@ spec:
                         --dockerfile=Dockerfile \
                         --destination=\$IMAGE_NAME \
                         --insecure
-                    sleep 300
                     """
                 }
             }
