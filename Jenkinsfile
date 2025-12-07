@@ -20,7 +20,9 @@ spec:
     tty: true
     volumeMounts:
     - name: docker-config
-      mountPath: /kaniko/.docker/
+    mountPath: /kaniko/.docker/config.json   # 挂载成 Kaniko 需要的名字
+    subPath: .dockerconfigjson               # secret 中实际文件名
+    readOnly: true
 
   volumes:
   - name: docker-config
@@ -57,12 +59,10 @@ spec:
                 container('kaniko') {
                     // 使用 Kaniko 构建镜像
                     sh """
-                    cp /kaniko/.docker/.dockerconfigjson /kaniko/.docker/config.json
                     /kaniko/executor \
                         --context=\$WORKSPACE \
                         --dockerfile=Dockerfile \
                         --destination=\$IMAGE_NAME \
-                        --docker-config=/kaniko/.docker/.dockerconfigjson \
                         --insecure
                     """
                 }
