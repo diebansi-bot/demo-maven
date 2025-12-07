@@ -69,6 +69,20 @@ spec:
                 }
             }
         }
+        stage('Run Container') {
+            steps {
+                script {
+                    // 创建并运行一个临时 Pod 执行 Jar
+                    sh """
+                    kubectl run demo-maven-run \\
+                        --image=\$IMAGE_NAME \\
+                        --restart=Never \\
+                        --attach \\
+                        -- /bin/sh -c 'java -jar /app/app.jar'
+                    """
+                }
+            }
+        }    
     }
 
     post {
