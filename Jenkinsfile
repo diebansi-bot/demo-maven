@@ -20,14 +20,14 @@ spec:
     tty: true
     volumeMounts:
     - name: docker-config
-    mountPath: /kaniko/.docker/config.json   # 挂载成 Kaniko 需要的名字
-    subPath: .dockerconfigjson               # secret 中实际文件名
-    readOnly: true
 
   volumes:
   - name: docker-config
     secret:
       secretName: dockerhub-secret
+      items:
+      - key: .dockerconfigjson
+        path: config.json
 """
         }
     }
