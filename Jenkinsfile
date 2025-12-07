@@ -61,6 +61,7 @@ spec:
                         --context=\$WORKSPACE \
                         --dockerfile=Dockerfile \
                         --destination=\$IMAGE_NAME \
+                        --docker-config=/kaniko/.docker/.dockerconfigjson \
                         --insecure
                     sleep 300
                     """
